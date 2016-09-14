@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		  function countCH(str){
+          var counter=0;
+          var CH= /[\u4E00-\u9FA5]/;
+          for(var i=0;i<str.length;i++){
+              if( CH.test(str.charAt(i))){
+                counter++;
+              }
+          }
+          return counter
+        }
+        var tester="adf北京a123124阿草";
+        console.log(countCH(tester));
+	</script>
+</body>
+</html>

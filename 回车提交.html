@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>密码强度检测</title>
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<input type="button" value="提交" />
+<script type="text/javascript">
+var inputele=document.getElementsByTagName('input')[0];
+inputele.onkeyup=function(e){
+ e=e||window.event;
+ var keyCode=e.keyCode||e.which||e.charCode;
+ if (keyCode==13) {
+ 	alert("success")
+ };
+}
+</script>
+</body>
+</html>

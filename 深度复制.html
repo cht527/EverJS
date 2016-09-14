@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+	<title></title>
+
+</head>
+<body>
+<script type="text/javascript">
+	function clone1(Obj) {
+    var buf;   
+    if (Obj instanceof Array) {
+        buf = [];  // 创建一个空的数组
+        var i = Obj.length;
+        while (i--) {
+            buf[i] = clone1(Obj[i]);
+        }
+        return buf;
+    } else if (Obj instanceof Object){
+        buf = {};  // 创建一个空对象
+        for (var k in Obj) {  // 为这个对象添加新的属性
+            buf[k] = clone1(Obj[k]);
+        }
+        return buf;
+    }else{
+        return Obj;
+    }
+}
+function rect(w,h){
+this.w=w;
+this.h=h;
+this.area=this.w*this.h;
+}
+var obj1=new rect(12,13);
+//var ddf=["1","2","3"];
+console.log(clone1(obj1));
+</script>>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+
+  </style>
+  <script src="jquery-1.11.1.min.js"></script>
+  </head>
+  <body>
+  
+<!-- <div class="demo" id="demo">
+    <div class="box"></div>
+ </div>  --> 
+
+<script>
+
+function add0(m){return m<10?'0'+m:m }
+function format(time){
+      var y = time.getFullYear();
+      var m = time.getMonth()+1;
+      var d = time.getDate();
+      var h = time.getHours();
+      var mm = time.getMinutes();
+      var s = time.getSeconds();
+      return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+//当天零时
+function showTodayStart(){
+  var today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  //today.setMilliseconds(0);
+  return today
+}
+console.log("今天零时:"+format(showTodayStart()));
+
+//本周第一天零时
+function showWeekStart(){
+  var Nowdate=new Date();
+  var WeekFirstDay=new Date(Nowdate-(Nowdate.getDay()-1)*86400000);
+  WeekFirstDay.setHours(0);
+  WeekFirstDay.setMinutes(0);
+  WeekFirstDay.setSeconds(0);
+  return WeekFirstDay
+}
+console.log("本周第一天零时:"+format(showWeekStart()));
+
+//本月第一天零时
+function showMonthStart(){
+  var MonthFirstDay=new Date();
+  MonthFirstDay.setDate(1);
+  MonthFirstDay.setHours(0);
+  MonthFirstDay.setMinutes(0);
+  MonthFirstDay.setSeconds(0);
+  return MonthFirstDay
+}
+console.log("本月第一天零时:"+format(showMonthStart()));
+
+
+//当前时间
+function showTodayNow(){
+  return new Date();
+}
+console.log("当前时间:"+format(showTodayNow()))
+
+function showla(){
+  var d=new Date();
+  dd=new Date(d-86400000*55);
+  return dd
+}
+console.log(showla())
+
+function testShow(){
+  var d=new Date();
+  var dd=new Date(d-86400000*55);
+  var WeekFirstDay=new Date(dd-(dd.getDay()-1)*86400000);
+  WeekFirstDay.setHours(0);
+  WeekFirstDay.setMinutes(0);
+  WeekFirstDay.setSeconds(0);
+  return WeekFirstDay
+}
+console.log(testShow())
+
+</script>
+</body>
+</html>

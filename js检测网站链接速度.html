@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>检测网站速度</title>
+<style>
+  
+</style>
+</head>
+<body>
+
+<div id="container">
+   
+
+</div><!--container end-->
+<script type="text/javascript">
+    window.onload=function() {
+        //检测某网站的链接速度
+        var linkSpeedTime=0,linkSpeedInter=-1,linkSpeedE=null,linkSpeedURL="";
+        var getLinkSpeed=function(){
+            linkSpeedE.value=(linkSpeedTime/10)+"秒";
+            window.clearInterval(linkSpeedInter);//关闭线程
+        };
+        var linkSpeed=function(e,t){
+            linkSpeedTime=1;
+            window.clearInterval(linkSpeedInter);//关闭线程
+            linkSpeedInter=setInterval(function(){
+                linkSpeedTime++;
+                console.log(linkSpeedTime);
+            },100)
+            linkSpeedURL=e.value;
+            linkSpeedE=t;
+            //创建image对象，创建一个img请求连接，实现图片预下载
+            var img=new Image();
+            img.src=linkSpeedURL+"/"+Math.random();
+            //检测测试结果，图片下载完毕时异步调用到callback函数
+            img.onerror=function(call){
+                
+                console.log(call);
+                if (linkSpeedURL) {
+                    getLinkSpeed()
+                };
+            }
+        };
+        document.getElementById('linkSpeed').onclick=function(){
+            linkSpeed(document.getElementById('linkSpeedWeb'),document.getElementById("linkSpeedTime"));
+        }
+
+    }
+
+</script>
+<h2>检测某个网站链接速度</h2>
+时间：<input type="text" id="linkSpeedTime" value="0"><br/>
+网站：<input type="text" id="linkSpeedWeb" value="https://msdn.microsoft.com/library/2yfce773">
+<input type="button" id="linkSpeed" value="检测">
+
+</body>
+</html>

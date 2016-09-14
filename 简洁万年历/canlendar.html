@@ -1,0 +1,171 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta name="keywords" content="站长,网页特效,js特效,广告代码,zzjs,zzjs.net,sky,www.zzjs.net,站长特效 网" />
+<meta name="description" content="www.zzjs.net,站长特效网，站长必备js特效及广告代码。大量高质量js特效，提供高质量广告代码下载,尽在站长特效网" />
+<title>真正的万年历，sky整理收集，站长特效欢迎您。</title>
+</head>
+<body bgcolor="#000000" text="#999999" link="#33FF33" vlink="#33FF33" alink="#33FF33" onLoad="setToday()">
+<a href="<#ZC_BLOG_HOST#>">站长特效网</a>,站长必备的高质量网页特效和广告代码。zzjs.net，站长js特效。<hr>
+<!--欢迎来到站长特效网，我们网站收集大量高质量js特效，提供许多广告代码下载，网址：www.zzjs.net，zzjs@msn.com,用.net打造靓站-->
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+function setToday() {
+var now   = new Date();
+var day   = now.getDate();
+var month = now.getMonth();
+var year  = now.getYear();
+if (year < 2000)
+year = year + 1900;
+this.focusDay = day;
+document.calControl.month.selectedIndex = month;
+document.calControl.year.value = year;
+displayCalendar(month, year);
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function isFourDigitYear(year) {
+if (year.length != 4) {
+alert ("Sorry, the year must be four-digits in length.");
+document.calControl.year.select();
+document.calControl.year.focus();
+} else { return true; }
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function selectDate() {
+var year  = document.calControl.year.value;
+if (isFourDigitYear(year)) {
+var day   = 0;
+var month = document.calControl.month.selectedIndex;
+displayCalendar(month, year);
+    }
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function setPreviousYear() {
+var year  = document.calControl.year.value;
+if (isFourDigitYear(year)) {
+var day   = 0;
+var month = document.calControl.month.selectedIndex;
+year--;
+document.calControl.year.value = year;
+displayCalendar(month, year);
+   }
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function setPreviousMonth() {
+var year  = document.calControl.year.value;
+if (isFourDigitYear(year)) {
+var day   = 0;
+var month = document.calControl.month.selectedIndex;
+if (month == 0) {
+month = 11;
+if (year > 1000) {
+year--;
+document.calControl.year.value = year;
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+} else { month--; }
+document.calControl.month.selectedIndex = month;
+displayCalendar(month, year);
+   }
+}
+function setNextMonth() {
+var year  = document.calControl.year.value;
+if (isFourDigitYear(year)) {
+var day   = 0;
+var month = document.calControl.month.selectedIndex;
+if (month == 11) {
+month = 0;
+year++;
+document.calControl.year.value = year;
+} else { month++; }
+document.calControl.month.selectedIndex = month;
+displayCalendar(month, year);
+   }
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function setNextYear() {
+var year = document.calControl.year.value;
+if (isFourDigitYear(year)) {
+var day = 0;
+var month = document.calControl.month.selectedIndex;
+year++;
+document.calControl.year.value = year;
+displayCalendar(month, year);
+   }
+}
+function displayCalendar(month, year) {
+month = parseInt(month);
+year = parseInt(year);
+var i = 0;
+var days = getDaysInMonth(month+1,year);
+var firstOfMonth = new Date (year, month, 1);
+var startingPos = firstOfMonth.getDay();
+days += startingPos;
+document.calButtons.calPage.value  =   " Su Mo Tu We Th Fr Sa";
+document.calButtons.calPage.value += "\n --------------------";
+for (i = 0; i < startingPos; i++) {
+if ( i%7 == 0 ) document.calButtons.calPage.value += "\n ";
+document.calButtons.calPage.value += "   ";
+}
+for (i = startingPos; i < days; i++) {
+if ( i%7 == 0 ) document.calButtons.calPage.value += "\n ";
+if (i-startingPos+1 < 10)
+document.calButtons.calPage.value += "0";
+document.calButtons.calPage.value += i-startingPos+1;
+document.calButtons.calPage.value += " ";
+}
+for (i=days; i<42; i++)  {
+if ( i%7 == 0 ) document.calButtons.calPage.value += "\n ";
+document.calButtons.calPage.value += "   ";
+}
+document.calControl.Go.focus();
+}
+function getDaysInMonth(month,year)  {
+var days;
+if (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)  days=31;
+else if (month==4 || month==6 || month==9 || month==11) days=30;
+else if (month==2)  {
+if (isLeapYear(year)) { days=29; }
+else { days=28; }
+}
+return (days);
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+function isLeapYear (Year) {
+if (((Year % 4)==0) && ((Year % 100)!=0) || ((Year % 400)==0)) {
+return (true);
+} else { return (false); }
+}
+// End -->
+</SCRIPT>
+<CENTER>
+<H2>万年历</H2>
+<FORM NAME="calControl" onSubmit="return false;">
+<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+<TR><TD COLSPAN=7>
+<CENTER>
+<SELECT NAME="month" onChange="selectDate()">
+<OPTION>一月</OPTION>
+<OPTION>二月</OPTION>
+<OPTION>三月</OPTION>
+<OPTION>四月</OPTION>
+<OPTION>五月</OPTION>
+<OPTION>六月</OPTION>
+<OPTION>七月</OPTION>
+<OPTION>八月</OPTION>
+<OPTION>九月</OPTION>
+<OPTION>十月</OPTION>
+<OPTION>十一月</OPTION>
+<OPTION>十二月</OPTION>
+</SELECT>
+<INPUT NAME="year" TYPE=TEXT SIZE=4 MAXLENGTH=4>
+<INPUT TYPE="button" NAME="Go" value="创建" onClick="selectDate()">
+</CENTER>
+</TD>
+</TR>
+</FORM>
+<FORM NAME="calButtons">
+<TR><TD align="center"><textarea FONT="Courier" NAME="calPage" WRAP=no ROWS=8 COLS=24></textarea></TD><TR><TD><CENTER>
+<INPUT TYPE=BUTTON NAME="previousYear" VALUE="<<"    onClick="setPreviousYear()">
+<INPUT TYPE=BUTTON NAME="previousYear" VALUE="< "    onClick="setPreviousMonth()">
+<INPUT TYPE=BUTTON NAME="previousYear" VALUE="Today"    onClick="setToday()">
+<INPUT TYPE=BUTTON NAME="previousYear" VALUE="> "    onClick="setNextMonth()">
+<INPUT TYPE=BUTTON NAME="previousYear" VALUE=">>"    onClick="setNextYear()">
+</CENTER></TD></TR>
+</form></TABLE></FORM>
+</center>
+</body>
+</html> 

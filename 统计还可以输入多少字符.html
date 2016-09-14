@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>统计还可以输入多少字符</title>
+<style>
+    .remainingCharacters{
+        color: green;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <h2>实时显示还可以输入多少字符</h2>
+    <input type="text" data-length='5' id="remainingCharacters" data-remainingCharacters="charActers" /><br/>
+    <p>测试1：还可以输入<span class="remainingCharacters" id="charActers">5</span>字符</p>
+    
+
+</div><!--container end-->
+<script type="text/javascript">
+    window.onload=function() {
+        //显示
+        var showRemainingCharacters=function(_nums,_remainingCharactes){
+            ele=document.getElementById(_remainingCharactes);
+            ele.innerHTML=(_nums&&_nums.toString())||"0";
+
+        },
+        //计算输入的字符长度
+        strLen=(function(){
+            var trim=function(chars){
+                return(chars||"").replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g,"");//匹配表单开头和结尾空白、空格
+            }
+            return function(_str){
+                _str=trim(_str);
+                var _strLen=_str.length;
+                if(_str.length==0){
+                    return 0;
+                }else{
+                    var chinese=_str.match(/[\u4e00-\u9fa5]/g);
+                    return _strLen+(chinese?chinese.length:0);//返回字符长度
+                }
+            }
+        })(),
+        //
+        clearNonumber=function(tThis){
+                var _v=tThis.value;    //表单的值
+                dataLength=tThis.getAttribute("data-length");//设置长度
+                showId=tThis.getAttribute("data-remainingCharacters");
+                _vLen=strLen(_v);//获取实际长度
+                if (_vLen>dataLength) {
+                    tThis.value=_v.substr(0,dataLength);
+                };
+                 
+                showRemainingCharacters(!_vLen?dataLength:(_vLen>dataLength?0:dataLength-_vLen),showId);
+                
+        },
+
+            remainingCharacters=document.getElementById('remainingCharacters');
+            
+            remainingCharacters.onfocus=function(){
+                clearNonumber(this);
+            }
+            remainingCharacters.onkeyup=function(){
+                clearNonumber(this);
+            }
+    }
+
+</script>
+
+
+
+</body>
+</html>

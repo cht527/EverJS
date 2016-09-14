@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<script type="text/javascript">
+var str = "abcdefgaaaaaaddda";
+var obj = [];
+var k;
+for(var i = 0,len = str.length;i<len;i++){
+	k = str[i];
+	if(!obj[k]){
+		obj[k] = 1;
+	}else{
+		obj[k]++;
+	}
+}
+console.log(obj);
+
+var max_key,max_num=0;
+	for(key in obj){
+		if(max_num <obj[key]){
+			max_num = obj[key];
+			max_key = key;
+	}
+}
+console.log("字母:"+max_key+"　次数："+max_num);
+</script>
+</body>
+</html>

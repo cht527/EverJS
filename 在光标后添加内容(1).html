@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script> 
+<style>
+</style>
+<script>
+	function insertText(obj,str) {
+    if (document.selection) {
+        var sel = document.selection.createRange();
+        sel.text = str;
+    } else if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
+        var startPos = obj.selectionStart,
+            endPos = obj.selectionEnd,
+            cursorPos = startPos,
+            tmpStr = obj.value;
+        obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+        cursorPos += str.length;
+        obj.selectionStart = obj.selectionEnd = cursorPos;
+    } else {
+        obj.value += str;
+    }
+}
+function moveEnd(obj){
+    obj.focus();
+    var len = obj.value.length;
+    if (document.selection) {
+        var sel = obj.createTextRange();
+        sel.moveStart('character',len);
+        sel.collapse();
+        sel.select();
+    } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+        obj.selectionStart = obj.selectionEnd = len;
+    }
+} 
+</script>
+</head>
+<body>
+<textarea id="te" name="c" id="" cols="30" rows="10">eff</textarea>
+<button id="p" onclick="insertText(document.getElementById('te'),' <p></p> ')">+P</button>
+<button id="moveEnd" onclick="moveEnd(document.getElementById('te'))">moveEnd</button>
+
+<script>
+
+
+/*var addP=document.getElementById('p'),textarea=document.getElementById("te");
+addP.onclick=insertText(textarea,"<p></p>");
+var moveEndButton=document.getElementById("moveEnd");
+moveEndButton.onclick=moveEnd(textarea);*/
+
+
+</script>
+</body>
+</html>

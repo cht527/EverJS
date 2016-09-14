@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+
+<title>测试程序</title>
+</head>
+<body>
+<form id="ee" name="email" action=""> 
+<div style="float:left"><input type="text" id="email" name="email"/></div>
+<div id="output1" style="display:none;float:left;"></div>
+</br>
+<div style="margin-top:10px;"><input type="text" id="ch" value=""/></div>
+<input id="shuaxin" type="button" value="刷新" onclick="refresh()">
+</form>
+<script type="text/javascript"> 
+// .trim();意思为去掉左右两边的空格，比如你在s=document.getbyid(“name”).value;可能会使获取到的值中带有空格，那么在其后加上 .trim()就可以使值s前后不带有空格，记住是前后不包括中间的！
+//var emailReg = /^[_a-z0-9]+@([_a-z0-9]+\.)+[a-z0-9]{2,3}$/;
+		$(document).ready(function(){
+		  $("#email").blur(function(){
+		    var ee=document.getElementById('email').value.trim();
+		    var emailReg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+			if(emailReg.test(ee)){
+		   		 $("#ch").val(ee);
+			}else{
+				$('#output1').html("格式！").show(); 
+			}
+		  });
+		});
+		function refresh(){
+			window.location.reload();
+		}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script language="javascript">
+	function F_submit(){
+	document.form1.target="_blank";
+	document.form1.action="1.asp";
+	document.form1.submit();
+	document.form1.target="_blank";
+	document.form1.action="2.asp";
+	document.form1.submit();
+}
+</script>
+<form name="form1" method="post" action="">
+	<input type="text" name="textfield">
+	<input type="button" name="Submit" value="提交" onClick="F_submit()">
+</form>
+</body>
+</html>

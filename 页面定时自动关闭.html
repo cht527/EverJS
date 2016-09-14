@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script language="javascript">
+
+</script>
+<title>div print</title>
+</head>
+
+<body>
+<span id="closeit" style="display:inline-block;width:200px;height:40px;border:1px solid red"></span>
+<script>
+	closeit();
+	function closeit () {
+		var Timetext=document.getElementById('closeit');
+		var i=5;
+		setInterval(function(){
+			Timetext.innerHTML=i+"秒后页面关闭";
+			if(i<=0){
+				self.close();
+			}else{
+				i--;
+			}
+			
+		},1000)
+	}
+
+
+</script>
+</body>
+
+</html

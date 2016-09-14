@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<title></title>
+</head>
+<body>
+<style type="text/css">
+
+</style>
+
+
+<SCRIPT LANGUAGE="javascript">
+Array.prototype.uniq = function () {
+    var hasNaN = false;
+    for(i=0;i<this.length;i++){
+        for(j=i-1;j>=0;j--){
+            if((this[i] === this[j]) || (hasNaN && this[i]!==this[i])){
+                this.splice(i,1);
+            }
+        }
+        if(!hasNaN && this[i]!==this[i]){
+                hasNaN = true;
+        } 
+    }
+}
+x = [false, true, undefined, null, NaN, 0, 1, {}, {}, 'a', 'a', NaN];
+console.log(x);
+x.uniq();
+console.log(x);
+
+</script>
+</body>
+</html>

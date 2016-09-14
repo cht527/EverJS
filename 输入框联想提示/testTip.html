@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="" name="description">
+<meta content="" name="keywords">
+<title>中国电信</title>
+<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
+<script type="text/javascript" src="jquery-1.8.3.js"></script>
+ <link rel="stylesheet" type="text/css" href="jquery.autocomplete.css">
+ <script type="text/javascript" src="jquery.autocomplete.js"></script>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+	$('#searchtext').AutoComplete({//绑定要实现提示关联词的搜索框ID
+		'type': 'post',
+		//'data': "/test/keyWord.do?method=searchKeyWord&shop_id=&keyWord=" + $("#searchtext").val(),//此处填写ajax查询关联词url
+		'data':["189","153","123","1998"],//返回的json数据示例
+		'width': 290,
+		'ajaxDataType': 'json',
+		'async': true,
+		'onerror': function(msg) {}
+	});
+	
+}); 
+</script>
+</head>
+<body>
+<input type="text" id="searchtext" name="searchtext" autocomplete="off"> 
+
+
+
+
+

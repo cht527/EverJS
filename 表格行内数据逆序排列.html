@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>测试程序</title>
+<link rel="stylesheet" type="text/css" href="" />
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+</head>
+<style>
+#table{ border: 1px solid}	
+td{width: 200px;border: 1px solid}
+</style>
+<body>
+<table id="table">
+	<tr><td>1</td><td>a</td></tr>
+	<tr><td>2</td><td>b</td></tr>
+	<tr><td>3</td><td>c</td></tr>
+	<tr><td>4</td><td>d</td></tr>
+	<tr><td>5</td><td>e</td></tr>
+	<tr><td>6</td><td>f</td></tr>
+	<tr><td>7</td><td>g</td></tr>
+	<tr><td>8</td><td>h</td></tr>
+	<tr><td>9</td><td>i</td></tr>
+</table>
+<script type="text/javascript">
+var tab=document.getElementById("table");
+	var rows=tab.rows.length;
+	var cells = tab.rows[0].cells.length ;
+	console.log(cells);
+	//console.log(rows);
+	var $tr = $('tr');
+	for(var i=0;i<rows;i++){
+		$tr.eq(i).insertAfter($tr.eq(rows-1));
+	}
+</script>
+</body>
+</html>
