@@ -3,38 +3,49 @@
 <head>
 
 
-	<title></title>
+	<title>深度复制</title>
 
 </head>
 <body>
 <script type="text/javascript">
-	function clone1(Obj) {
-    var buf;   
-    if (Obj instanceof Array) {
-        buf = [];  // 创建一个空的数组
-        var i = Obj.length;
-        while (i--) {
-            buf[i] = clone1(Obj[i]);
-        }
-        return buf;
-    } else if (Obj instanceof Object){
-        buf = {};  // 创建一个空对象
-        for (var k in Obj) {  // 为这个对象添加新的属性
-            buf[k] = clone1(Obj[k]);
-        }
-        return buf;
-    }else{
-        return Obj;
+/*-----方法1：原生stackoverflow提供 ------*/
+function clone(obj) {
+    var copy;
+
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
     }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
 }
-function rect(w,h){
-this.w=w;
-this.h=h;
-this.area=this.w*this.h;
-}
-var obj1=new rect(12,13);
-//var ddf=["1","2","3"];
-console.log(clone1(obj1));
+/*---jquery 方法----*/
+var copiedObject = jQuery.extend({}, originalObject) // shallow copy浅复制
+
+var copiedObject = jQuery.extend(true, {}, originalObject) // deep copy深复制
 </script>>
 </body>
 </html>
