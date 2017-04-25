@@ -11,23 +11,99 @@
 
 
 <SCRIPT LANGUAGE="javascript">
-Array.prototype.uniq = function () {
-    var hasNaN = false;
-    for(i=0;i<this.length;i++){
-        for(j=i-1;j>=0;j--){
-            if((this[i] === this[j]) || (hasNaN && this[i]!==this[i])){
-                this.splice(i,1);
-            }
-        }
-        if(!hasNaN && this[i]!==this[i]){
-                hasNaN = true;
-        } 
-    }
+  var arr = [1,2,3,1,1,1,1];
+    function toHeavy(array){
+        //这是一个缓存对象，用来实现过滤到重复的数据
+        var cache = {};
+        //定义一个中间数组，用来实现当容器
+        var cacheArr = [];
+        for(var i = 0,len = array.length;i<len;i++){
+            if(!cache[array[i]]){
+                cacheArr.push(array[i]);
+                cache[array[i]] = array[i];
+            };
+        };
+        return cacheArr;
+    };
+    arr = toHeavy(arr);//arr ==  [1,2,3]
+
+console.log(arr);
+/*1、Set实现
+
+第一种方法就是使用es6新增的Array.from()和new Set()。如果现在你还不了解es6,那你可真是out了。建议阅读ECMAScript 6 入门或者learn-es2015。*/
+
+Array.prototype.unique = function() {
+  return Array.from(new Set(this));
 }
-x = [false, true, undefined, null, NaN, 0, 1, {}, {}, 'a', 'a', NaN];
-console.log(x);
-x.uniq();
-console.log(x);
+/*2、结合{}实现
+
+这种方法的关键点就是：判断是否相同的时候,不要忽略对元素类型的判断。*/
+
+Array.prototype.unique = function() {
+  var json = {};
+  var result = [];
+  this.forEach(function(value){
+    var type = Object.prototype.toString.call(value).match(/\s(\w+)/)[1].toLowerCase();
+    if(!((type + '-'+value) in json)){
+      json[type + '-'+value] = true;
+      result.push(value);
+    }
+  })
+  return result;
+}
+/*3、利用Array.prototype.filter实现
+
+filter是es5中新增的数组的一个方法。不了解的同请阅读Array.prototype.filter()*/
+
+Array.prototype.unique = function() {
+  var sortArr = this.sort();
+  return sortArr.filter(function(v,i,context){
+    return v !== context[i+1];
+  })
+}
+/*4、利用Array.prototype.forEach实现
+
+includes也是es6新增的方法。不了解的同请阅读Array.prototype.includes()*/
+
+Array.prototype.unique = function() {
+  var result = [];
+  this.forEach(function(v){
+    if(!result.includes(v)){
+      result.push(v);
+    }
+  })
+  return result;
+}
+/*5、利用Array.prototype.splice()实现
+
+这个方法是一个很常规的方法,关键点就是在splice一个元素之后,i要自减1。*/
+
+Array.prototype.unique = function() {
+  var sortArr = this.sort(),
+    i = 0,
+    len = sortArr.length;
+  for(; i < len; i++){
+    if(sortArr[i] === sortArr[i++]){
+      sortArr.splice(i,1);
+      i--;
+    }
+  }
+  return sortArr;
+}
+/*6、利用Array.prototype.reduce()实现
+
+reduce是es5中新增的数组的一个方法。不了解的同请阅读Array.prototype.reduce()。*/
+
+var sortArr = this.sort(), result = [];
+  sortArr.reduce((v1,v2) => {
+    if(v1 !== v2){
+      result.push(v1);
+    }
+    return v2;
+  })
+  result.push(sortArr[sortArr.length - 1]);
+  return result;
+}
 
 </script>
 </body>
