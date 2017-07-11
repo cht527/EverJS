@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>js 实现栈</title>
+
+<style>
+
+</style>
+
+</head>
+<body>
+
+<div id="stack"></div>
+
+<script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+<script> 
+function stack(stack)  {    
+ 	this.stackList=stack
+}  
+//----进栈
+stack.prototype.stackPush = function(params) {
+	this.stackList.push(params);
+};
+//----出栈
+stack.prototype.stackPop = function() {
+	this.stackList.pop();
+};
+//----获取栈顶元素
+stack.prototype.stackPeek = function() {
+	return this.stackList[this.stackList.length-1];
+};
+//----判断是否为空
+stack.prototype.stackIsEmpty = function() {
+ 	return !this.stackList.length;
+};
+//----获取栈的长度
+stack.prototype.stackSize = function() {
+	return this.stackList.length;
+};
+//----清空
+stack.prototype.stackClear=function(){
+	this.stackList=[];
+}
+
+var testStack=[1,2,3,5,4.3,4];
+var newStack = new stack(testStack);
+console.log("----初始化栈---");
+console.log(newStack.stackList);
+
+newStack.stackPush("newElement");
+console.log("----进栈---");
+console.log(newStack.stackList);
+
+newStack.stackPop();
+console.log("----出栈---");
+console.log(newStack.stackList);
+
+console.log("----获取栈顶元素---");
+console.log(newStack.stackPeek());
+
+console.log("----判断栈是否为空---");
+console.log(newStack.stackIsEmpty());
+
+console.log("----获取栈的长度---");
+console.log(newStack.stackSize());
+
+
+console.log("----清空栈---");
+newStack.stackClear();
+console.log(newStack.stackList);
+</script>
+</body>
+</html>
