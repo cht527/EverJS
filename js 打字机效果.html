@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>产生不重复的随机数组</title>
+<!-- <link rel="stylesheet" href="txt.wav.css"> -->
+<style>
+.header,.footer{
+	width: 100%;
+	height: 100px;
+	background-color: blue;
+	position: fixed;
+}
+.header{
+	top: 0
+}
+.footer{
+	bottom: 0
+}
+.content{
+	width: 100%;
+	background-color: red;
+	position: fixed;
+	top: 100px;
+	bottom: 100px;
+	overflow-y: auto;
+}
+/* .customerDetail-groupHeade .group-title table tbody tr td:first-child{
+	color:red;
+} */
+.bounce{
+	display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
+</head>
+<body>
+
+<div class="customerDetail-groupHeade">
+	<div id="we"></div>
+</div>
+<span class="txtwav bounce">dfdddfasdfdddfd</span>
+<div class="txtwav flip">dfddddfd</div>
+<div class="txtwav slow">dfddddfd</div>
+
+<script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+<!-- <script src='txt.wav.js'></script> -->
+<script>
+var headerTextObj={
+	timeInterval:200,
+	textContainer:document.getElementById('we'),
+	textTemplate:"看遍世界上所有的美景，经历生命里每一个良辰",
+	index:0
+}
+var showText=function(){
+	   var text=headerTextObj.textTemplate,
+	   	   textLen=text.length,
+	   	   container=headerTextObj.textContainer;
+	   var textTimer=setInterval(function(){
+					    container.innerHTML+=text.charAt(headerTextObj.index);
+					    if(headerTextObj.index++ === textLen){
+						    clearInterval(textTimer);
+						    headerTextObj.index = 0;
+						 
+						    setTimeout(function(){
+						    	container.innerHTML="";
+						    	showText()
+						    },500)
+						    
+					    }
+					  },headerTextObj.timeInterval);
+}
+showText();
+
+</script>
+</body>
+</html>
