@@ -61,6 +61,14 @@ Array.prototype.unique = function() {
     return v !== context[i+1];
   })
 }
+/*或者*/
+function unique (arr) {
+    var res = arr.filter(function (item, index, array) {
+        return array.indexOf(item) === index;
+    })
+    return res;
+}
+
 /*4、利用Array.prototype.forEach实现
 
 includes也是es6新增的方法。不了解的同请阅读Array.prototype.includes()*/
@@ -92,7 +100,7 @@ Array.prototype.unique = function() {
 }
 /*6、利用Array.prototype.reduce()实现
 
-reduce是es5中新增的数组的一个方法。不了解的同请阅读Array.prototype.reduce()。*/
+reduce是es5中新增的数组的一个方法。不了解的请阅读Array.prototype.reduce()。*/
 
 var sortArr = this.sort(), result = [];
   sortArr.reduce((v1,v2) => {
