@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>经典轮播图2</title>
+<style type="text/css">
+*{
+	margin:0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+.container{
+	width: 900px;
+	height: 360px;
+	margin:80px auto;
+}
+.imgList{
+	width: 900px;
+	height: 336px;
+}
+
+ul{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+ul li{
+	position: absolute;
+	transition: all 0.5s
+	
+}
+ul li a img{
+	width: 500px;
+}
+.list1{
+	left: 0;
+	transform: scale(0.8);
+	transform-origin: 0% 100%;
+	z-index: 1;
+}
+.list2{
+	left: 200px;
+	z-index: 2;
+}
+.list3{
+	left: 500px;
+	transform: scale(0.8);
+	transform-origin: 100% 100%;
+	z-index: 1;
+}
+.list4{
+	left: 900px;
+	transform: scale(0.8);
+	transform-origin: 100% 100%;
+}
+.list5{
+	left:1100px;
+	transform: scale(0.8);
+	transform-origin: 100% 100%;
+}
+.list6{
+	left: 900px;
+	transform: scale(0.8);
+	transform-origin: 100% 0%;
+}
+.line{
+	width: 900px;
+	height: 24px;
+	text-align: center;
+}
+.line-normal{
+	display: inline-block;
+	width: 40px;
+	height: 5px;
+	background: #ccc;
+}
+.line-target{
+	background:#45c17c
+}
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="imgList">
+		<ul>
+			<li class="list1">
+				<a href="javascript:;">
+					<img class="nav-image" src="1.png" alt="" />
+				</a>
+			</li>
+			<li class="list2">
+				<a href="">
+					<img class="nav-image" src="2.png" alt=""/>
+				</a>
+			</li>
+			<li class="list3">
+				<a href="javascript:;">
+					<img class="nav-image" src="3.png" alt=""/>
+				</a>
+			</li>
+			<li class="list4">
+				<a href="javascript:;">
+					<img class="nav-image" src="4.png" alt=""/>
+				</a>
+			</li>
+			<li class="list5">
+				<a href="javascript:;">
+					<img class="nav-image" src="5.png" alt=""/>
+				</a>
+			</li>
+			<li class="list6">
+				<a href="javascript:;">
+					<img class="nav-image" src="6.png" alt=""/>
+				</a>
+			</li>
+		</ul>
+		<div class="line">
+			<a  class="line-normal" href="javascript:;"></a>
+			<a  class="line-normal" href="javascript:;"></a>
+			<a  class="line-normal" href="javascript:;"></a>
+			<a  class="line-normal" href="javascript:;"></a>
+			<a  class="line-normal" href="javascript:;"></a>
+			<a  class="line-normal" href="javascript:;"></a>
+		</div>
+	</div>
+</div>
+
+</body>
+<script type="text/javascript" src="jquery-1.11.1.min.js"> </script>
+<script>
+
+	var lineA=$(".line a");
+	var imageLi=$("li");
+	var currentIndex=1;
+	var timer=null;
+
+	var styleArray=["list1","list2","list3","list4","list5","list6"];//样式数组
+//设置底部导航样式
+function setLineStyle() {
+	lineA.eq(currentIndex).addClass("line-target").siblings().removeClass("line-target");
+}
+//设置图片轮播样式
+function setImageStyle() {
+	imageLi.each(function(index,item){
+		$(item).removeClass().addClass(styleArray[index]);
+	});
+}
+//向下翻
+function doNext(thisIndex,deltaIndex) {
+	currentIndex=thisIndex;
+	//--修改类名数组
+	for (var i = 0; i < deltaIndex; i++) {
+		styleArray.unshift(styleArray[5]);//将最后一个类名添加到数组开始
+		styleArray.pop();//将最后一个类名删除
+	}
+	//--重置图片样式
+	setImageStyle();
+	
+	//--重置导航样式
+	setLineStyle();
+
+}
+//向上翻
+function doPrev(thisIndex,deltaIndex) {
+	currentIndex=thisIndex;
+	//--修改类名数组
+	for (var i = 0; i < Math.abs(deltaIndex); i++) {
+		styleArray.push(styleArray[0]);//将第一个类名添加到数组开始
+		styleArray.shift();//将第一个类名删除
+	}
+	//--重置图片样式
+	setImageStyle();
+	
+	//--重置导航样式
+	setLineStyle();
+}
+
+// 导航点击事件绑定
+lineA.on("click",function (e) {
+	e.preventDefault();//阻止a标签默认跳转
+	var thisIndex=$(this).index();
+	var deltaIndex=thisIndex-currentIndex;
+	if (deltaIndex>0) {//向下翻
+		doNext(thisIndex,deltaIndex);
+	}else if (deltaIndex<0) {//向上翻
+		doPrev(thisIndex,deltaIndex);
+	}else{
+		return false;
+	}
+	
+});
+// 图片点击事件绑定
+imageLi.on("click mouseover",function (e) {
+	e.stopPropagation();
+	clearInterval(timer);
+	var thisIndex=$(this).index();
+	var deltaIndex=thisIndex-currentIndex;
+	if (deltaIndex>0) {//向下翻
+		doNext(thisIndex,deltaIndex);
+	}else if (deltaIndex<0) {//向上翻
+		doPrev(thisIndex,deltaIndex);
+	}else{
+		return false;
+	}
+});
+imageLi.on("mouseout",function (e) {
+	e.stopPropagation();
+	timer=setInterval(function () {
+		if(currentIndex>=5){
+			currentIndex=-1;
+		}
+		doNext(currentIndex+1,1);
+		setLineStyle();
+		
+	}, 1800);
+	
+});
+
+window.onload=function () {
+	setLineStyle();
+	timer=setInterval(function () {
+		if(currentIndex>=5){
+			currentIndex=-1;
+		}
+		doNext(currentIndex+1,1);
+		setLineStyle();
+		
+	}, 1800);
+}
+	
+	
+
+
+
+</script>
+</html>
