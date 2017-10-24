@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数字千分位格式化--逗号分隔</title>
+
+<style>
+</style>
+</head>
+<body>
+
+<script>	
+/*方法一、*/
+var a=12;
+
+function numToStrReverse(num){
+	if (Object.prototype.toString.call(num)=="[object String]") {
+		return num.split("").reverse().join("");
+	}else if(Object.prototype.toString.call(num)=="[object Number]"){
+		return num.toString().split("").reverse().join("");
+	}
+	
+}
+function thousand(num) {
+	var reverseStr=numToStrReverse(num);
+	var res="";
+	for (var i = 1,len=reverseStr.length; i <=len ; i++) {
+		res+=reverseStr[i-1];
+		if (i%3==0&&i!=len) {
+			res+=","
+			
+		}
+		
+	}
+	return numToStrReverse(res);
+}
+console.log(thousand(a))
+
+
+/*方法一、*/
+var bb=1233345;
+function thousandFormat(str){
+  if (Object.prototype.toString.call(str)=="[object String]") {
+  	return str.replace(/(\d)(?=(?:\d{3})+$)/g,function(res,$1){
+  		return $1+","
+  	})
+  }else if(Object.prototype.toString.call(str)=="[object Number]"){
+  	return str.toString().replace(/(\d)(?=(\d{3})+$)/g,function(res,$1){
+  		return $1+","
+  	})
+  }
+}
+alert(thousandFormat(bb));
+</script>
+</body>
+</html>
