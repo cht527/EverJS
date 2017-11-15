@@ -11,21 +11,100 @@
 <script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
 <script> 
 
-(function(doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function() {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-        };
-    if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false);
-    doc.addEventListener('DOMContentLoaded', recalc, false);
+
+/*
+方案一、
+如果页面的宽度超过了640px，那么页面中html的font-size恒为100px，否则，页面中html的font-size的大小为： 100 * (当前页面宽度 / 640) 
+为什么是640px？
+对于手机屏幕来说，640px的页面宽度是一个安全的最大宽度，保证了移动端页面两边不会留白。注意这里的px是css逻辑像素，与设备的物理像素是有区别的。如iphone 5使用的是Retina视网膜屏幕，使用2px x 2px的 device pixel 代表 1px x 1px 的 css pixel，所以设备像素数为640 x 1136px，而它的CSS逻辑像素数为320 x 568px。
+如果要切移动端页面，你可以先把效果图宽度等比例缩放到640px，很好用。
+
+我们一开始把html的font-size设为100px,此时1rem = 100px，那么上面的宽，高就可以这么设置 ↓
+
+width: 0.55rem;
+height: 0.37rem;
+*/
+(function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>=640){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                }
+            };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 
+/*
+方案二、
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<style id="rootFontSize">html{font-size: 100px !important;}</style>
 
+//
+以下是动态计算
+根据设计稿大小，调整里面的最后两个参数值：
+designWidth:设计稿的实际宽度值，需要根据实际设置
+//maxWidth:制作稿的最大宽度值，需要根据实际设置
+//这段js的最后面有两个参数记得要设置，一个为设计稿实际宽度，一个为制作稿最大宽度，例如设计稿为750，最大宽度为750，则为(750,750)
+*/
 
+;(function(designWidth, maxWidth) {
+    var doc = document,
+    win = window,
+    docEl = doc.documentElement,
+    remStyle = document.createElement("style"),
+    tid;
+
+    function refreshRem() {
+        var width = docEl.getBoundingClientRect().width;
+        maxWidth = maxWidth || 540;
+        width>maxWidth && (width=maxWidth);
+        var rem = width * 100 / designWidth;
+        remStyle.innerHTML = 'html{font-size:' + rem + 'px;}';
+    }
+
+    if (docEl.firstElementChild) {
+        docEl.firstElementChild.appendChild(remStyle);
+    } else {
+        var wrap = doc.createElement("div");
+        wrap.appendChild(remStyle);
+        doc.write(wrap.innerHTML);
+        wrap = null;
+    }
+    //要等 wiewport 设置好后才能执行 refreshRem，不然 refreshRem 会执行2次；
+    refreshRem();
+
+    win.addEventListener("resize", function() {
+        clearTimeout(tid); //防止执行两次
+        tid = setTimeout(refreshRem, 300);
+    }, false);
+
+    win.addEventListener("pageshow", function(e) {
+        if (e.persisted) { // 浏览器后退的时候重新计算
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+        }
+    }, false);
+
+    if (doc.readyState === "complete") {
+        doc.body.style.fontSize = "16px";
+    } else {
+        doc.addEventListener("DOMContentLoaded", function(e) {
+            doc.body.style.fontSize = "16px";
+        }, false);
+    }
+})(750, 750);
 </script>
 </body>
 </html>
