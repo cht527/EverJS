@@ -15,9 +15,10 @@
 var a=12;
 
 function numToStrReverse(num){
-	if (Object.prototype.toString.call(num)=="[object String]") {
+	var numType=Object.prototype.toString.call(num);
+	if (numType=="[object String]") {
 		return num.split("").reverse().join("");
-	}else if(Object.prototype.toString.call(num)=="[object Number]"){
+	}else if(numType=="[object Number]"){
 		return num.toString().split("").reverse().join("");
 	}
 	

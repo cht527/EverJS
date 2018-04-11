@@ -23,7 +23,58 @@
 
 <script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
 <script>
+//---------part1-----------
+function randomAndSort(n,min,max,sortType,isRepeated){
+	var arr=[];
+	var sortType=sortType||0;//默认升序排列
+	var isRepeated=isRepeated||false;//默认不可重复
+		if (isRepeated) { //允许重复
+			for (var i = 0; i < n; i++) {
+				var this_random=Math.floor(Math.random()*(max-min+1)+min);
+				arr.push(this_random);
+			}
+			
+		}else{//不允许重复
+			for (var i = 0; i < n; i++) {
+				var this_random=Math.floor(Math.random()*(max-min+1)+min);
+				if(arr.indexOf(this_random)==-1){
+					arr.push(this_random)
+				}else{
+					i--;
+				}
+			}
+			
+		}
+		
 	
+	arr.sort(function (a,b) {
+		if(sortType===1){ //降序排列
+			return b-a
+		}else if(sortType===0){ //升序排列
+			return a-b
+		}
+		
+	});
+	return arr
+}
+
+// 判断数组中是否有重复
+function isArrayRepeated(arr){
+	var copy_arr=[arr[0]];
+	for (var i = 1; i < arr.length; i++) {
+		if(copy_arr.indexOf(arr[i])==-1){
+			copy_arr[arr[i]];
+		}else{
+			return true
+		}
+	}
+	return false
+}
+
+for (var i = 0; i <20; i++) {
+	console.log(isArrayRepeated(randomAndSort(10,10,100,1,false)))
+}
+//-----------------part 2------------------------------------
 	function fn1(n,min,max) {//--输入数组元素个数，取值范围：最大值，最小值
 		var arr=[];//---容器，存放满足要求的数组
 		for (var i = 0; i < n; i++) {

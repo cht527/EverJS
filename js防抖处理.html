@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>js防抖处理</title>
+
+
+<script>
+
+/*
+频繁的事件触发
+window 的 resize、scroll
+mousedown、mousemove、keyup、keydown
+*/
+/*防抖的原理就是：
+触发事件，在事件触发 n 秒后才执行，
+如果在一个事件触发的 n 秒内又触发了，
+就以新的事件的时间为准，n 秒后才执行，
+总之，触发完事件 n 秒内不再触发事件
+*/
+//--第一版
+function debounce(func,wait){
+	var timeout;
+	return function(){
+		/*
+		cancelAnimationFrame(t)
+        t = requestAnimationFrame(func);*/
+		clearTimeout(timeout);
+		timeout=setTimeout(func,wait);
+	}
+}
+//--第二版--修复this指向问题
+function debounce2(func,wait){
+	var timeout;
+	
+	return function(){
+		var context=this;
+		clearTimeout(timeout);
+		timeout=setTimeout(function(){
+			func.apply(context)
+		},wait);
+	}
+}
+//--第三版--修复event 对象问题
+function debounce3(func, wait) {
+    var timeout;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        clearTimeout(timeout)
+        timeout = setTimeout(function(){
+            func.apply(context, args)
+        }, wait);
+    }
+}
+container.onmousemove = debounce(getUserAction, 1000);
+
+</script>
+
+
+
+</body>
+</html>

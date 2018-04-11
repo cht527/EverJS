@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>实现fadeIn&fadeOut</title>
+	<style>
+		
+
+		.fade {
+		  opacity: 1;
+		  transition:all .9s;
+		}
+		
+	</style>
+
+
+</head>
+<body>
+<div class='js-fade fade is-paused'>You look amazing!</div>
+<br>
+
+<button class="fadeIn1">fadeIn1</button>
+<button class="fadeOut1">fadeOut1</button>
+<br>
+<button class="fadeIn2">fadeIn2</button>
+<button class="fadeOut2">fadeOut2</button>
+
+
+<script>
+//----方法一----
+// fade out
+
+function fadeOut(el){
+  el.style.opacity = 1;
+
+  (function fade() {
+    if ((el.style.opacity -= .1) < 0) {
+      el.style.display = "none";
+    } else {
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+
+// fade in
+
+function fadeIn(el, display){
+  el.style.opacity = 0;
+  el.style.display = display || "block";
+
+  (function fade() {
+    var val = parseFloat(el.style.opacity);
+    if (!((val += .1) > 1)) {
+      el.style.opacity = val;
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+document.querySelector(".fadeIn1").onclick=function(){
+	var el = document.querySelector('.js-fade');
+	fadeIn(el);
+}
+document.querySelector(".fadeOut1").onclick=function(){
+	var el = document.querySelector('.js-fade');
+	fadeOut(el);
+}
+	
+
+
+
+//---方法二-------------
+
+
+document.querySelector(".fadeIn2").onclick=function(){
+	var el = document.querySelector('.js-fade');
+	el.style.opacity=1;
+}
+document.querySelector(".fadeOut2").onclick=function(){
+	var el = document.querySelector('.js-fade');
+	el.style.opacity=0
+	
+}
+
+
+</script>
+
+
+</body>
+</html>
