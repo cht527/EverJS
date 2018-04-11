@@ -38,7 +38,7 @@ function thousand(num) {
 console.log(thousand(a))
 
 
-/*方法一、*/
+/*方法二、*/
 var bb=1233345;
 function thousandFormat(str){
   if (Object.prototype.toString.call(str)=="[object String]") {
@@ -52,6 +52,10 @@ function thousandFormat(str){
   }
 }
 alert(thousandFormat(bb));
+
+/* 方法三、*/
+var cc=121313;
+console.log(cc.toLocaleString('zh',{style:'decimal'}))
 </script>
 </body>
 </html>
