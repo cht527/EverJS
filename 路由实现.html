@@ -8,15 +8,15 @@
         background: #222
     }
     .jscode{
-        color: #aaa;
+        color: #bbb;
         font-size: 1.2em
     }
     
   </style>
 </head>
 <body>
-<h1>hash 路由</h1>
-<pre class="jscode">
+<h1 style="color: #eee">hash 路由 <span onclick="show('hash')" style="cursor: pointer;color: red;" title="展开">+</span></h1>
+<pre class="jscode" id="hash">
 class Routers {
   constructor() {
     // 储存hash与callback键值对
@@ -68,9 +68,9 @@ class Routers {
 }
 
 </pre>
-<h1>history 路由</h1>
+<h1 style="color: #eee">history 路由<span onclick="show('history')" style="cursor: pointer;color: red;" title="展开">+</span></h1>
 
-<pre class="jscode">
+<pre class="jscode" id="history">
 history.pushState用于在浏览历史中添加历史记录,但是并不触发跳转,此方法接受三个参数，依次为：
 
 state:一个与指定网址相关的状态对象，popstate事件触发时，该对象会传入回调函数。如果不需要这个对象，此处可以填null。
@@ -80,7 +80,7 @@ url：新的网址，必须与当前页面处在同一个域。浏览器的地�
 history.replaceState方法的参数与pushState方法一模一样，区别是它修改浏览历史中当前纪录,而非添加记录,同样不触发跳转。
 popstate事件,每当同一个文档的浏览历史（即history对象）出现变化时，就会触发popstate事件。
 
-class Routers {
+class Router {
   constructor() {
     this.routes = {};
     // 在初始化时监听popstate事件
@@ -109,15 +109,74 @@ class Routers {
     });
   }
 }
+</pre>
 
-作者：寻找海蓝96
-链接：https://juejin.im/post/5ac61da66fb9a028c71eae1b
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+<h2>测试 history 路由</h2>
+<div>
+  <ul id="ul">
+    <li><a href="/">yellow</a></li>
+    <li><a href="/blue">blue</a></li>
+    <li><a href="/green">green</a></li>
+  </ul>
+</div>
 
 <script>
+function show(id){
+ var ele= document.getElementById(id);
+ var isShow=ele.style.display=='none';
+ if(isShow){
+  ele.style.display="block"
+ }else{
+  ele.style.display='none';
+ }
+}
 
 
+//----Router---
+class Router{
+  constructor(){
+    this.routes={};
+    // 在初始化时监听popstate事件
+    this.bindEvent();
+
+  }
+  initRoute(path){
+    history.replaceState({path: path}, null, path);
+    this.routes[path] && this.routes[path]();
+  }
+  route(path,callback){
+    this.routes[path]=callback||function(){}
+  }
+  go(path){
+    history.pushState({path: path}, null, path);
+    this.routes[path] && this.routes[path]();
+  }
+  bindEvent(){
+    window.addEventListener('popstate',(e)=>{
+       const path = e.state && e.state.path;
+       this.routes[path]&&this.routes[path]()
+    })
+  }
+
+}
+var router=new Router();
+router.initRoute(location.pathname);
+router.route('/',function(){
+  document.body.style.background="yellow"
+})
+router.route('/blue',function(){
+  document.body.style.background="blue"
+})
+router.route('/green',function(){
+  document.body.style.background="green"
+})
+var ul=document.getElementById('ul');
+ul.addEventListener('click',function(e){
+  if(e.target.tagName=='A'){
+    e.preventDefault();
+    router.go(e.target.getAttribute('href'))
+  }
+})
 </script>
 </body>
 
