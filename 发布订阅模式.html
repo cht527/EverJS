@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>发布订阅模式</title>
+</head>
+<body>
+<button id="delte">删除dog event</button>
+<script>
+	
+	var eventEmiiter={
+		list:{},
+		on:function  (type,callback) {
+			if (!this.list[type]) {
+				this.list[type]=[]
+			}
+			this.list[type].push(callback)
+		},
+		emit:function(type){
+			var args=[...arguments].slice(1);
+			if (!this.list[type].length) {
+				console.log('无订阅事件')
+				return false
+			}
+			var fns=this.list[type];
+			fns.forEach((fn)=>{
+				fn.apply(this,args)
+			});
+		},
+		remove:function(type,fn){
+			var fns=this.list[type];
+
+			if (!fns) {
+				return false
+			}
+			if (!fn) {
+				fns.length=0
+			}else{
+				fns.forEach((item,i)=>{
+					if (fn==item) {
+						fns.splice(i,1)
+					};
+				});
+			}
+
+		}
+
+	};
+	function cat(args){
+		console.log(args[0]+' miaomiao '+args[1]+'次')
+	}
+	function dog(args){
+		console.log(args[0]+' wangwang '+args[1]+'次')
+	}
+
+	eventEmiiter.on('cat',cat);
+	eventEmiiter.on('dog',dog);
+	eventEmiiter.emit('cat',['tom',3]);
+	eventEmiiter.emit('dog',['tony',4]);
+	document.getElementById('delte').onclick=function(){
+		eventEmiiter.remove('dog',dog);
+		eventEmiiter.emit('dog',dog)
+	};
+
+</script>
+</body>
+</html>
