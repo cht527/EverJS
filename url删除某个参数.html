@@ -23,7 +23,7 @@ function funcUrlDel(name){
         delete obj[name];
         console.log(JSON.stringify(obj));
         var url = baseUrl + JSON.stringify(obj).replace(/[\"\{\}]/g,"").replace(/\:/g,"=").replace(/\,/g,"&");
-        return url
+        return url;
     };
 }	
 </pre>
