@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<style>
+</style>
+</head>
+<body>
+<pre>
+	 var ModalHelper = (function(bodyCls) {
+    var scrollTop;
+    return {
+      afterOpen: function() {
+        if(document.scrollingElement){
+          scrollTop = document.scrollingElement.scrollTop;
+        } else {
+          scrollTop = document.body.scrollTop;
+        }
+        document.body.classList.add(bodyCls);
+        document.body.style.top = -scrollTop + 'px';
+      },
+      beforeClose: function() {
+        if (document.scrollingElement) {
+          document.body.classList.remove(bodyCls);
+          document.scrollingElement.scrollTop = scrollTop;
+        } else {
+          document.body.classList.remove(bodyCls);
+          document.body.scrollTop = scrollTop;
+        }
+
+        // scrollTop lost after set position:fixed, restore it back.
+      }
+    };
+  })('modal-open');
+
+  export default ModalHelper
+</pre>
+</body>
+</html>
