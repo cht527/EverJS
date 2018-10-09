@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
+   
+    <style>
+        img {
+            display: block;
+            margin-bottom: 50px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+    <img src="1.png" data-src="qr.jpg">
+</div>
+<pre>
+function throttle(fn, delay) {
+        var startTime = +new Date();
+        return function() {
+            var curTime = +new Date();
+            if(curTime - startTime >= delay) {
+                fn();
+                startTime = curTime;
+            }
+        }
+}
+
+function lazyload() {
+        var images = document.getElementsByTagName('img');
+        var len    = images.length;
+        var n      = 0;      //存储图片加载到的位置，避免每次都从第一张图片开始遍历       
+        return function() {
+            var seeHeight = document.documentElement.clientHeight;
+            for(var i = n; i < len; i++) {
+                console.log(images[i].getBoundingClientRect())
+                if(images[i].getBoundingClientRect().top < seeHeight) {
+                    if(images[i].getAttribute('src') === '1.png') {
+                     images[i].src = images[i].getAttribute('data-src');
+                    }
+                    n = n + 1;
+                }
+            }
+        }
+    }
+
+var loadImages = lazyload();
+loadImages();          //初始化首页的页面图片
+window.addEventListener('scroll', throttle(loadImages, 500), false);
+
+</pre>
+<script>
+function throttle(fn, delay) {
+        var startTime = +new Date();
+        return function() {
+            var curTime = +new Date();
+            if(curTime - startTime >= delay) {
+                fn();
+                startTime = curTime;
+            }
+        }
+}
+function lazyload() {
+        var images = document.getElementsByTagName('img');
+        var len    = images.length;
+        var n      = 0;      //存储图片加载到的位置，避免每次都从第一张图片开始遍历       
+        return function() {
+            var seeHeight = document.documentElement.clientHeight;
+            for(var i = n; i < len; i++) {
+                console.log(images[i].getBoundingClientRect())
+                if(images[i].getBoundingClientRect().top < seeHeight) {
+                    if(images[i].getAttribute('src') === '1.png') {
+                     images[i].src = images[i].getAttribute('data-src');
+                    }
+                    n = n + 1;
+                }
+            }
+        }
+    }
+var loadImages = lazyload();
+loadImages();          //初始化首页的页面图片
+window.addEventListener('scroll', throttle(loadImages, 500), false);
+</script>
+
+
+<script>
+
+</script>
+</body>
+</html>
