@@ -14,20 +14,21 @@
 </head>
 <body>
 <div>
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
-    <img src="1.png" data-src="qr.jpg">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
+    <img src="" data-src="http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png">
 </div>
 <pre>
+<p>方法一：</p>
 function throttle(fn, delay) {
         var startTime = +new Date();
         return function() {
@@ -38,7 +39,6 @@ function throttle(fn, delay) {
             }
         }
 }
-
 function lazyload() {
         var images = document.getElementsByTagName('img');
         var len    = images.length;
@@ -48,7 +48,7 @@ function lazyload() {
             for(var i = n; i < len; i++) {
                 console.log(images[i].getBoundingClientRect())
                 if(images[i].getBoundingClientRect().top < seeHeight) {
-                    if(images[i].getAttribute('src') === '1.png') {
+                    if(images[i].getAttribute('data-src') === 'http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png') {
                      images[i].src = images[i].getAttribute('data-src');
                     }
                     n = n + 1;
@@ -56,14 +56,16 @@ function lazyload() {
             }
         }
     }
-
 var loadImages = lazyload();
 loadImages();          //初始化首页的页面图片
 window.addEventListener('scroll', throttle(loadImages, 500), false);
+</pre>
+<pre>
+<p>方法二：IntersectionObserver 接口(从属于 Intersection Observer API )为开发者提供了一种可以异步监听目标元素与其祖先或视窗( viewport )交叉状态的手段。它是一个异步的 API，也就是说只有线程空闲下来，才会执行观察器</p>
 
 </pre>
 <script>
-function throttle(fn, delay) {
+/*function throttle(fn, delay) {
         var startTime = +new Date();
         return function() {
             var curTime = +new Date();
@@ -82,7 +84,7 @@ function lazyload() {
             for(var i = n; i < len; i++) {
                 console.log(images[i].getBoundingClientRect())
                 if(images[i].getBoundingClientRect().top < seeHeight) {
-                    if(images[i].getAttribute('src') === '1.png') {
+                    if(images[i].getAttribute('data-src') === 'http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png') {
                      images[i].src = images[i].getAttribute('data-src');
                     }
                     n = n + 1;
@@ -92,7 +94,30 @@ function lazyload() {
     }
 var loadImages = lazyload();
 loadImages();          //初始化首页的页面图片
-window.addEventListener('scroll', throttle(loadImages, 500), false);
+window.addEventListener('scroll', throttle(loadImages, 500), false);*/
+
+/*----------方法二-----------*/
+
+let observer=new IntersectionObserver((entries,observer)=>{
+    entries.forEach((entry)=>{
+        if (entry.isIntersecting||entry.intersectionRatio) {
+            let img=entry.target;
+            if(img.getAttribute('data-src') === 'http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png') {
+                img.src = img.getAttribute('data-src');
+                observer.unobserve(img)
+            }
+        }
+    })
+},
+{// 因为我们设置了50px的偏移量，所以只要被观察的元素靠近可视区50px，就会加载。
+    rootMargin:'50px 0px',
+    root:null,
+    threshold:[0,0.01] 
+})
+Array.from(document.getElementsByTagName('img')).forEach(function (item) {
+  observer.observe(item);
+});
+
 </script>
 
 
