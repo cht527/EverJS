@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>异步红绿灯</title>
+
+</head>
+<body>
+<div id='lightEle' style="width: 200px;height: 200px"></div>
+<h3>方法一</h3>
+<pre>
+	let lightArr=[{color:'green',dur:3000},{color:'red',dur:1000},{color:'yellow',dur:2000}];
+	let index=0;
+	function light(color) {
+		lightEle.style.backgroundColor=color;
+	}
+	function sleep(color,dur){
+		light(color)
+		return new Promise((resolve,reject)=>{
+			setTimeout(()=>{
+				resolve();
+			},dur)
+		})
+	}
+
+	
+	function start(obj){
+		let {color,dur}=obj;
+		sleep(color,dur)
+		.then((data)=>{
+			if(index>=lightArr.length-1){
+				index=0;
+			}else{
+				index++;
+			}
+			start(lightArr[index])
+		})
+		.catch((err)=>{
+			console.error('error')
+		})
+	}
+
+	start(lightArr[index])
+</pre>
+<h3>方法二</h3>
+<pre>
+	function sleep(duration){
+	    return new Promise(function(resolve){
+	        setTimeout(resolve, duration);
+	    })
+	}
+	async function changeColor(duration,color){
+	    lightEle.style.background = color;
+	    await sleep(duration);
+
+	}
+	async function main(){
+	    while(true){
+	        await changeColor(3000,"green");
+	        await changeColor(1000, "yellow");
+	        await changeColor(2000, "red");
+	    }
+	}
+	main()
+</pre>
+	<script>
+	let lightArr=[{color:'green',dur:3000},{color:'red',dur:1000},{color:'yellow',dur:2000}];
+	let index=0;
+	function light(color) {
+		lightEle.style.backgroundColor=color;
+	}
+	function sleep(color,dur){
+		light(color)
+		return new Promise((resolve,reject)=>{
+			setTimeout(()=>{
+				resolve();
+			},dur)
+		})
+	}
+
+	
+	function start(obj){
+		let {color,dur}=obj;
+		sleep(color,dur)
+		.then((data)=>{
+			if(index>=lightArr.length-1){
+				index=0;
+			}else{
+				index++;
+			}
+			start(lightArr[index])
+		})
+		.catch((err)=>{
+			console.error('error')
+		})
+	}
+
+	start(lightArr[index])
+
+	</script>
+</body>
+</html>
