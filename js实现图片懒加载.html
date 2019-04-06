@@ -97,11 +97,15 @@ loadImages();          //初始化首页的页面图片
 window.addEventListener('scroll', throttle(loadImages, 500), false);*/
 
 /*----------方法二-----------*/
-
+// andriod 4.4以上 ios 12.2  qq不支持
 let observer=new IntersectionObserver((entries,observer)=>{
+    /*
+     entries是一个数组，每个成员都是一个IntersectionObserverEntry对象
+     有几个被观察的对象的可见性发生变化，entries数组就会有几个对象
+     */
     entries.forEach((entry)=>{
         if (entry.isIntersecting||entry.intersectionRatio) {
-            let img=entry.target;
+            let img=entry.target;//target是被观察的目标元素，是一个 DOM 节点对象
             if(img.getAttribute('data-src') === 'http://wx-p.oss-cn-beijing.aliyuncs.com/cuc.png') {
                 img.src = img.getAttribute('data-src');
                 observer.unobserve(img)
@@ -111,7 +115,7 @@ let observer=new IntersectionObserver((entries,observer)=>{
 },
 {// 因为我们设置了50px的偏移量，所以只要被观察的元素靠近可视区50px，就会加载。
     rootMargin:'50px 0px',
-    root:null,
+    root:null, //如果未传入任何值或值为null，则默认使用viewport。
     threshold:[0,0.01] 
 })
 Array.from(document.getElementsByTagName('img')).forEach(function (item) {

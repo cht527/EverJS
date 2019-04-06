@@ -8,21 +8,38 @@
 </style>
 </head>
 <body>
-<script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
-<script> 
+<pre>
+    递归：
+    ---------------------------------------------
 
- function search(arr,findval)  {    
- 		var flag=true;  
+    function searchBinary(left,right,list,target){
+      var midIndex=~~((left+right)/2);
+      if(list[midIndex]==target){
+        return midIndex
+      }
+      if(list[midIndex]>target){
+        return searchBinary(left,midIndex-1,list,target);
+      }else{
+        return searchBinary(midIndex+1,right,list,target)
+      }
+
+    }
+
+    循环：
+    -----------------------------------------------
+
+    function search(arr,target)  {    
+        var flag=true;  
         var leftindex=0,rightindex=arr.length-1;
         while(leftindex<=rightindex)  {  
-            var mid_index=Math.floor((leftindex+rightindex)/2);  
+            var mid_index=~~((leftindex+rightindex)/2);  
             var mid_val=arr[mid_index];  
-            if(mid_val>findval)  {  
+            if(mid_val>target)  {  
                 rightindex=mid_index-1;  
-            }else if(mid_val<findval){  
+            }else if(target>mid_val){  
                 leftindex=mid_index+1;  
-            }else if(mid_val=findval){   
-            	flag=false;  
+            }else if(mid_val=target){   
+                flag=false;  
                 console.log("您要查找的值的下标是："+mid_index);  
                 return;  
             }   
@@ -30,7 +47,13 @@
         if (flag){  
             console.log("您查找的值不存在！");  
         }   
-}  
+    }  
+     
+
+</pre>
+<script> 
+
+
 function reSortArray(a,b){
 	return a-b;
 }
