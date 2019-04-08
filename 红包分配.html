@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<pre>
+	function randMoney(min,max){
+	  return Number((Math.random()*max + min).toFixed(2));
+	}
+
+	function redPackage(sum,n){
+	  var remain = sum;
+	  var min = 0.01;
+	  var max = sum - (n-1)*min;
+	  var money;
+	  var res=[];
+	  for (var i = 0; i < n; i++) {
+	    money = randMoney(min,max);
+	    if(remain-money>0){
+	        if(i==n-1){
+	          res.push(Number(remain.toFixed(2)));//剩余最后一个直接添加到结果
+	        }else{
+	          res.push(money);
+	          remain=remain-money;
+	        } 
+	    }else {
+	        i--;
+	    }
+	  }
+	  return res
+	}
+	console.log(redPackage(10,4))
+	</pre>
+	<script>
+
+	</script>
+</body>
+</html>
