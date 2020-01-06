@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-12-06 18:02:02
+ * @LastEditTime : 2020-01-06 11:57:31
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /js/查找一个页面上有多少种标签，并计算每种标签的个数.html
+ -->
 
 <!DOCTYPE html>
 <html>
@@ -9,38 +17,129 @@
 </style>
 </head>
 <body>
-<button id="click">点击</button>
-<div id="template"></div>
-<div id="template2"></div>
-<div id="content">结果:</div>
-<div id="content2">结果:</div>
+<pre>
+	<code>
+	var tagArr={};
+	function countTag(node){
+		if(node.nodeType===1){
+			var thisName=node.tagName;
+			if (!tagArr[thisName]) {
+				tagArr[thisName]=1;
+			}else{
+				tagArr[thisName]++;
+			}
+		}	
+	}
+	// ---广度优先遍历
+	function findNodeBFS(node,callback){
+		let queue=[];
+		while(node){
+			if(node.nodeType===1 || node.nodeType===9){ // 标签节点或根节点
+				callback(node);
+				if(node.children.length>0){
+					for(let i=0;i &lt; node.children.length;i++){
+						if(node.children[i].nodeType===1){
+							queue.push(node.children[i])
+						}
+					}
+				}
+				node=queue.shift()
+			}
+			
+		}
+	}
+
+	// -- 深度优先遍历
+
+	function findNodeDFS(node,callback){
+		let stack=[node];
+		while(stack.length){
+			const currentNode = stack.pop();
+			callback(currentNode);
+			if(currentNode.nodeType===1 || currentNode.nodeType===9){ // 标签节点或根节点
+				if(currentNode.children.length>0){
+					for(let i=currentNode.children.length-1;i >= 0;i--){
+						if(currentNode.children[i].nodeType===1){
+							stack.push(currentNode.children[i])
+						}
+					}
+				}
+			}
+			
+		}
+	}
+	
+	
+	
+	findNodeDFS(document,countTag);
+	</code>
+	
+</pre>
 <p></p><p></p>
 <p></p><p></p>
 <span></span>
-<script>	
-var tagArr={};
-var all=document.all;
-for (var i =0,tagLen=all.length; i<tagLen; i++) {
-	var thisName=all[i].tagName;
-	if (!tagArr[thisName]) {
-		tagArr[thisName]=1;
-	}else{
-		tagArr[thisName]++;
+<script>
+	var tagArr1={};
+	var tagArr2={};
+	function countTag1(node){
+		if(node.nodeType===1){
+			var thisName=node.tagName;
+			if (!tagArr1[thisName]) {
+				tagArr1[thisName]=1;
+			}else{
+				tagArr1[thisName]++;
+			}
+		}	
 	}
-}
-content.innerHTML+=JSON.stringify(tagArr,null,'\t');
+	function countTag2(node){
+		if(node.nodeType===1){
+			var thisName=node.tagName;
+			if (!tagArr2[thisName]) {
+				tagArr2[thisName]=1;
+			}else{
+				tagArr2[thisName]++;
+			}
+		}	
+	}
+	function findNodeDFS(node,callback){
+		let stack=[node];
+		while(stack.length){
+			const currentNode = stack.pop();
+			callback(currentNode);
+			if(currentNode.nodeType===1 || currentNode.nodeType===9){ // 标签节点或根节点
+				if(currentNode.children.length>0){
+					for(let i=currentNode.children.length-1;i >= 0;i--){
+						if(currentNode.children[i].nodeType===1){
+							stack.push(currentNode.children[i])
+						}
+					}
+				}
+			}
+			
+		}
+	}
 
-var maxTag=[],max=0;
-for(key in tagArr){
-	if (tagArr[key]>max) {
-		max=tagArr[key];
-		maxTag=[];
-		maxTag.push(key);
-	}else if(tagArr[key]==max){
-		maxTag.push(key);
+	function findNodeBFS(node,callback){
+		let queue=[];
+		while(node){
+			if(node.nodeType===1 || node.nodeType===9){ // 标签节点或根节点
+				callback(node);
+				if(node.children.length>0){
+					for(let i=0;i < node.children.length;i++){
+						if(node.children[i].nodeType===1){
+							queue.push(node.children[i])
+						}
+					}
+				}
+				node=queue.shift()
+			}
+			
+		}
 	}
-}
-content2.innerHTML+=max+"--"+JSON.stringify(maxTag,null,'\t');
+	findNode1(document,countTag1);
+	console.log(tagArr1);
+	findNode2(document,countTag2);
+	console.log(tagArr2);
 
 </script>
 </body>
