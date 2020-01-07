@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-12-06 18:02:02
+ * @LastEditTime : 2020-01-07 11:37:01
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /js/红包分配.html
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,13 +33,49 @@
 	          res.push(money);
 	          remain=remain-money;
 	        } 
-	    }else {
+	    }else { // 存在冗余循环
 	        i--;
 	    }
 	  }
 	  return res
 	}
 	console.log(redPackage(10,4))
+
+
+	//----------------------优化获取最大值的方式-----------------
+
+class RedPackage {
+    constructor(num, money) {
+        this.remain = 0;
+        this.result = [];
+        this.MIN = 0.01;
+        this.num = num;
+        this.money = money;
+    }
+    init() {
+        this.remain = this.money;
+    }
+    produce(max, n) {
+        const _max = max - (this.MIN * (n - 1));
+        return +(Math.random() * (_max - this.MIN) + this.MIN).toFixed(2);
+    }
+    create() {
+        this.init();
+        for (let i = 1; i <= this.num; i++) {
+            if (i === this.num) {
+                this.result.push(+this.remain.toFixed(2));
+            }
+            else {
+                let currentMoney = this.produce(this.remain, this.num - i);
+                this.remain = this.remain - currentMoney;
+                this.result.push(currentMoney);
+            }
+        }
+        return this.result;
+    }
+}
+const getRedPackage = new RedPackage(5, 5);
+console.log(getRedPackage.create());
 	</pre>
 	<script>
 
