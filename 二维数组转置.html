@@ -1,25 +1,53 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-12-06 18:02:02
+ * @LastEditTime : 2020-01-07 10:05:29
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /js/二维数组转置.html
+ -->
 <!DOCTYPE html>  
-<html xmlns="http://www.w3.org/1999/xhtml">  
+<html>  
 <head>  
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
-    <title>js实现tab菜单动态切换效果</title>  
-
+<title>二维数组转置</title>  
 </head>  
 <body>  
+<pre>
+const testArray = [[1,2,3], [4,5,6], [7,8,9]];
+
+function arrayTranspose(array){
+  const rows=array.length;
+  const columns=array[0].length;
+  const target=[]
+  for(let i=0;i &lt; rows;i++){
+    target[i]=[];
+    for(var j=0;j &lt; array[i].length;j++){
+        target[i][j]=array[j][i];
+    }
+  }
+  return target
+}  
+</pre>
 <script type="text/javascript">  
 
-  var a = [[1,2,3], [4,5,6], [7,8,9];
-  console.log(a);
-    var b = [];
-    for (var i = 0; i < a[0].length; i++) {
-        b[i] = [];
-        for (var j = 0; j < a.length; j++) {
-          b[i][j] = a[j][i];
-        }
-    }
-    console.log(b)
-   
-</script>  
+const testArray = [[1,2,3], [4,5,6], [7,8,9]];
 
+function arrayTranspose(array){
+  const rows=array.length;
+  const columns=array[0].length;
+  const target=[]
+  for(let i=0;i<rows;i++){
+    target[i]=[];
+    for(var j=0;j<array[i].length;j++){
+        target[i][j]=array[j][i];
+    }
+  }
+  return target
+}   
+console.log(arrayTranspose(testArray));
+
+
+</script>  
 </body>  
 </html>
