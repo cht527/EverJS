@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-12-06 18:02:02
- * @LastEditTime : 2020-01-07 10:05:29
+ * @LastEditTime : 2020-02-03 21:17:15
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /js/二维数组转置.html
@@ -10,10 +10,29 @@
 <html>  
 <head>  
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
-<title>二维数组转置</title>  
+<title>二维数组生成&转置</title>  
 </head>  
 <body>  
 <pre>
+
+// 生成
+
+const produceMatrix = (m,n,isNoRepeat) => {
+  const _matrix = [];let tempMax=0;
+  for (let i = 0; i &lt; m; i++) {
+      const temp=[];
+      for(let j=0;j &lt; n;j++){
+          temp.push(i+j+tempMax)
+      }
+      if(isNoRepeat){
+       tempMax+=(n-1);
+      }
+      _matrix.push(temp)
+  }
+  return _matrix
+}
+
+// 转置
 const testArray = [[1,2,3], [4,5,6], [7,8,9]];
 
 function arrayTranspose(array){
