@@ -10,7 +10,7 @@
 	
 	var eventEmiiter={
 		list:{},
-		on:function  (type,callback,isOnce) {
+		on:function  (type,callback,once) {
 			if (!this.list[type]) {
 				this.list[type]=[]
 			}
