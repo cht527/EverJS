@@ -48,6 +48,7 @@ function thousandFormat(str){
   	})
   }else if(Object.prototype.toString.call(str)=="[object Number]"){
   	return str.toString().replace(/(\d)(?=(\d{3})+$)/g,function(res,$1){
+		console.log(res,$1);
   		return $1+","
   	})
   }
@@ -56,7 +57,7 @@ alert(thousandFormat(bb));
 
 /* 方法三、*/
 var cc=121313;
-console.log(cc.toLocaleString('zh',{style:'decimal'}))
+console.log(cc.toLocaleString('zh',{style:'currency',currency: 'CNY'}))
 </script>
 </body>
 </html>
