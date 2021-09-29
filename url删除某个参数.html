@@ -12,10 +12,10 @@
 方法一：
 
 function delUrl(name){
-  var queryStr=window.location.search;
+  var queryStr=window.location.href;
   if(queryStr.indexOf(name)>-1){
     var regExp=new RegExp('&*'+name+'=\\w+&*','g');
-    return url.replace(regExp,'')
+    return queryStr.replace(regExp,'')
   }
 }
 

@@ -16,7 +16,7 @@ function sendResquest(urls, max, callback) {
         pending_count--; 
        // console.log(url + ':done','并发数: '+pending_count+',url:'+url); 
         _fetch(urls[idx++]); 
-        if (pending_count ==0 ) {
+        if (pending_count ==0) {
         	callback && callback()
         }
          
@@ -35,10 +35,9 @@ let urls = Array.from({length: 10}, (v, k) => k);
  
 let fetch = function (idx) {
     return new Promise(resolve => {
-        let timeout = parseInt(Math.random() * 1e4);
         setTimeout(() => {
             resolve(idx)
-        }, timeout)
+        }, 2000)
     })
 };
  
