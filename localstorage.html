@@ -17,7 +17,7 @@
             UTF-16，每个字符使用两个字节，是有前提条件的，就是码点小于0xFFFF(65535)， 大于这个码点的是四个字节。
         </li>
         <li>
-
+            localStorage 键占存储空间
         </li>
     </ul>
     <h1>utf-16字符串计算字节数的方法</h1>
@@ -33,6 +33,46 @@
                 }
             }
             return total;
+        }
+    </script>
+    <h1>localstorage_功能检测</h1>
+    <script>
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            } catch (e) {
+                return e instanceof DOMException && (
+                        // everything except Firefox
+                        e.code === 22 ||
+                        // Firefox
+                        e.code === 1014 ||
+                        // test name field too, because code might not be present
+                        // everything except Firefox
+                        e.name === 'QuotaExceededError' ||
+                        // Firefox
+                        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
+        }
+    </script>
+    <h1>统计一个localStorage已使用空间</h1>
+    <script>
+        function sizeOfLS() {
+            return Object.entries(localStorage).map(v => v.join('')).join('').length;
+        }
+        // test
+        function testSizeOfLS() {
+            localStorage.clear();
+            localStorage.setItem("🔴", 1);
+            localStorage.setItem("🔴🔴🔴🔴🔴🔴🔴🔴", 1111);
+            console.log("size:", sieOfLS()) // 23
+                // 🔴*9 + 1 *5 = 2*9 + 1*5 = 23
         }
     </script>
 </body>
