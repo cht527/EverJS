@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localstorage</title>
+</head>
+
+<body>
+    <ul>
+        <li>
+            localStorage 存储的键和值始终采用 UTF-16 DOMString 格式，每个字符使用两个字节。与对象一样，整数键将自动转换为字符串。
+        </li>
+        <li>
+            UTF-16，每个字符使用两个字节，是有前提条件的，就是码点小于0xFFFF(65535)， 大于这个码点的是四个字节。
+        </li>
+        <li>
+
+        </li>
+    </ul>
+    <h1>utf-16字符串计算字节数的方法</h1>
+    <script>
+        function sizeofUtf16Bytes(str) {
+            let total = 0;
+            for (let i = 0, len = str.length; i < len; i++) {
+                const charCode = str.charCodeAt(i);
+                if (charCode <= 0xffff) { // 65536
+                    total += 2;
+                } else {
+                    total += 4;
+                }
+            }
+            return total;
+        }
+    </script>
+</body>
+
+</html>
