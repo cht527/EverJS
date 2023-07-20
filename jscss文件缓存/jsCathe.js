@@ -14,14 +14,9 @@
        function initJs() {  
            var name = "jquery";  
            var url = "/gfdzp201508257998/Turntable/Script/jquery-1.8.3.min.js";  
-           var xhr;  
            var js = window.localStorage ? localStorage.getItem(name) : "";  
            if (js == null || js.length == 0) {  
-               if (window.ActiveXObject) {  
-                   xhr = new ActiveXObject("Microsoft.XMLHTTP");  
-               } else if (window.XMLHttpRequest) {  
-                   xhr = new XMLHttpRequest();  
-               }  
+               const xhr = new XMLHttpRequest();  
                xhr.open("GET", url);  
                xhr.send(null);  
                xhr.onreadystatechange = function () {  
@@ -43,14 +38,9 @@
        function initTurntable() {  
            var name = "turntable";  
            var url = "/gfdzp201508257998/Turntable/Script/whir.turntable.js";  
-           var xhr;  
            var js = window.localStorage ? localStorage.getItem(name) : "";  
            if (js == null || js.length == 0) {  
-               if (window.ActiveXObject) {  
-                   xhr = new ActiveXObject("Microsoft.XMLHTTP");  
-               } else if (window.XMLHttpRequest) {  
-                   xhr = new XMLHttpRequest();  
-               }  
+               const xhr = new XMLHttpRequest();   
                xhr.open("GET", url);  
                xhr.send(null);  
                xhr.onreadystatechange = function () {  
@@ -68,14 +58,10 @@
   
        //第二步：初始化Css  
        function initCss(name, url) {  
-           var xhr;  
-           var css = window.localStorage ? localStorage.getItem(name) : "";  
+           const css = window.localStorage ? localStorage.getItem(name) : "";  
            if (css == null || css.length == 0) {  
-               if (window.ActiveXObject) {  
-                   xhr = new ActiveXObject("Microsoft.XMLHTTP");  
-               } else if (window.XMLHttpRequest) {  
-                   xhr = new XMLHttpRequest();  
-               }  
+               const xhr = new XMLHttpRequest();  
+
                xhr.open("GET", url);  
                xhr.send(null);  
                xhr.onreadystatechange = function () {  
@@ -105,7 +91,6 @@
                link = document.createElement("link");  
                link.type = "text/css";  
                link.rel = "stylesheet";  
-               link.rev = "stylesheet";  
                link.media = "screen";  
                link.href = url;  
            }  
@@ -122,7 +107,6 @@
                link.innerHTML = text;  
            } else {  
                link = document.createElement("style");  
-               link.type = "text/css";  
                link.innerHTML = text;  
            }  
            head.appendChild(link);  
@@ -146,14 +130,10 @@ whir.res = {
     //动态加载js文件并缓存  
     loadJs: function (name, url, callback) {  
         if (window.localStorage) {  
-            var xhr;  
             var js = localStorage.getItem(name);  
             if (js == null || js.length == 0 || this.pageVersion != localStorage.getItem("version")) {  
-                if (window.ActiveXObject) {  
-                    xhr = new ActiveXObject("Microsoft.XMLHTTP");  
-                } else if (window.XMLHttpRequest) {  
-                    xhr = new XMLHttpRequest();  
-                }  
+                const xhr = new XMLHttpRequest();  
+ 
                 if (xhr != null) {  
                     xhr.open("GET", url);  
                     xhr.send(null);  
@@ -182,14 +162,10 @@ whir.res = {
     },  
     loadCss: function (name, url) {  
         if (window.localStorage) {  
-            var xhr;  
             var css = localStorage.getItem(name);  
             if (css == null || css.length == 0 || this.pageVersion != localStorage.getItem("version")) {  
-                if (window.ActiveXObject) {  
-                    xhr = new ActiveXObject("Microsoft.XMLHTTP");  
-                } else if (window.XMLHttpRequest) {  
-                    xhr = new XMLHttpRequest();  
-                }  
+                const xhr = new XMLHttpRequest();  
+  
                 if (xhr != null) {  
                     xhr.open("GET", url);  
                     xhr.send(null);  
@@ -224,7 +200,6 @@ whir.res = {
     writeCss: function (text) {  
         var head = document.getElementsByTagName('HEAD').item(0);  
         var link = document.createElement("style");  
-        link.type = "text/css";  
         link.innerHTML = text;  
         head.appendChild(link);  
     },  
@@ -242,7 +217,6 @@ whir.res = {
         var link = document.createElement("link");  
         link.type = "text/css";  
         link.rel = "stylesheet";  
-        link.rev = "stylesheet";  
         link.media = "screen";  
         link.href = url;  
         head.appendChild(link);  
