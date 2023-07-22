@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ajax下载blob</title>
+</head>
+<body>
+<!-- /*方法一请求文件的接口能改为GET则可以使用这种方法*/
+ -->
+ <a  class="btn btn-primary btn-xs" download="data.xlsx" href="download/?filename=aaa.txt"><i class="fa fa-share-square-o fa-lg"></i> 导出</a>
+<!--  或者变换一种方式，使用js动态创建a标签
+ -->	
+ <button type="button"  onclick="download()">导出</button>
+
+<script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+<script>
+///*方法一
+function download() {
+    var a = document.createElement('a');
+    var url = 'download/?filename=aaa.txt';
+    var filename = 'data.xlsx';
+    a.href=url;
+    a.download = filename;
+    a.click()
+ }
+ //方法二
+function download() {
+    var url = 'download/?filename=aaa.txt';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);        // 也可以使用POST方式，根据接口
+    xhr.responseType = "blob";    // 返回类型blob
+    // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+    xhr.onload = function () {
+        // 请求完成
+        if (this.status === 200) {
+            // 返回200
+            var blob = this.response;
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+            reader.onload = function (e) {
+                // 转换完成，创建一个a标签用于下载
+                var a = document.createElement('a');
+                a.download = 'data.xlsx';
+                a.href = e.target.result;
+                $("body").append(a);    // 修复firefox中无法触发click
+                a.click();
+                $(a).remove();
+            }
+        }
+    };
+    // 发送ajax请求
+    xhr.send()
+}	
+</script>
+</body>
+</html>
