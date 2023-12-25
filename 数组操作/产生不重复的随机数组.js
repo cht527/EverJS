@@ -3,21 +3,12 @@ function randomAndSort(n, min, max, sortType, isRepeated) {
   var arr = [];
   var sortType = sortType || 0; //默认升序排列
   var isRepeated = isRepeated || false; //默认不可重复
-  if (isRepeated) {
-    //允许重复
-    for (var i = 0; i < n; i++) {
-      var this_random = Math.floor(Math.random() * (max - min + 1) + min);
+  for (var i = 0; i < n; i++) {
+    var this_random = Math.floor(Math.random() * (max - min + 1) + min);
+    if (isRepeated || arr.indexOf(this_random) == -1) {
       arr.push(this_random);
-    }
-  } else {
-    //不允许重复
-    for (var i = 0; i < n; i++) {
-      var this_random = Math.floor(Math.random() * (max - min + 1) + min);
-      if (arr.indexOf(this_random) == -1) {
-        arr.push(this_random);
-      } else {
-        i--;
-      }
+    } else {
+      i--;
     }
   }
 
@@ -33,24 +24,9 @@ function randomAndSort(n, min, max, sortType, isRepeated) {
   return arr;
 }
 
-// 判断数组中是否有重复
-function isArrayRepeated(arr) {
-  var copy_arr = [arr[0]];
-  for (var i = 1; i < arr.length; i++) {
-    if (copy_arr.indexOf(arr[i]) == -1) {
-      copy_arr[arr[i]];
-    } else {
-      return true;
-    }
-  }
-  return false;
-}
 
-for (var i = 0; i < 20; i++) {
-  console.log(isArrayRepeated(randomAndSort(10, 10, 100, 1, false)));
-}
 //-----------------part 2------------------------------------
-function fn1(n, min, max) {
+function fn(n, min, max) {
   //--输入数组元素个数，取值范围：最大值，最小值
   var arr = []; //---容器，存放满足要求的数组
   for (var i = 0; i < n; i++) {
@@ -65,20 +41,32 @@ function fn1(n, min, max) {
   }
   return arr;
 }
-function fn2(n, min, max) {
-  //--输入数组元素个数，取值范围：最大值，最小值
-  var temp = [];
-  var max = parseInt(max);
-  var min = parseInt(min);
-  for (var j = 0; j <= max - min; j++) {
-    temp.push(min + j);
+
+//-----------------part 3------------------------------------
+
+function getRandomInRange(start, end) {
+  // 验证输入
+  if (start >= end) {
+    throw new Error('Start must be less than end.');
   }
-  var target = [];
-  for (var i = 0; i < n; i++) {
-    //将随机删除的元素存放到target中
-    target.push(
-      temp.splice(Math.floor(Math.random() * temp.length), 1).toString()
-    );
-  }
-  return target;
+
+  // 计算所需范围内的值数量
+  const range = end - start + 1;
+
+  // 创建一个 Uint32Array 数组来存储随机值
+  const buffer = new Uint32Array(1);
+
+  // 使用 crypto.getRandomValues() 来填充数组
+  window.crypto.getRandomValues(buffer);
+
+  // 获取数组中的第一个元素，并限制它在所需范围内
+  const maxUint32 = Math.pow(2, 32);
+  const randomNumberInRange = (buffer[0] / maxUint32) * range + start;
+
+  // 返回整数部分，确保结果是介于 start 和 end（包括）之间的整数
+  return Math.floor(randomNumberInRange);
 }
+
+// 使用示例：
+const randomInt = getRandomIntInRange(10, 20);
+console.log(randomInt); // 输出：介于10到20之间（包括10和20）的随机整数
